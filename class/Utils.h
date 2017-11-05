@@ -1,7 +1,9 @@
 #include <random>
 #include <iostream>
 #include <time.h>
-
+#include <iostream>
+#include <fstream>
+#include <string.h>
 class Utils {
 
 public:
@@ -10,6 +12,5 @@ public:
 	float aleatorio();
 	std::vector<float> generador(int n);
 	
-	//float distriucionNormal(float aleatorio1, float max, float min);
 	
 };

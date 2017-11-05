@@ -1,6 +1,36 @@
-
+#include <string>
 #include "./class/Usuarios.h"
+// int vectorToCSV(std::vector<Usuarios> v, std::string file);
+int vectorToCSV(std::vector<Usuarios> v, std::string file){
+	std::ofstream myfile (file);
+	std::string header ="CLASE;TIEMPO\n";
+	
+	for (std::vector<Usuarios>::iterator i = v.begin(); i != v.end(); ++i) {
 
+		switch (i->getTipo()) {  
+	         case Tipo::TRIPULACION: 
+	         	header+="TRIPULACION;"+std::to_string( (i->getTiempo()/(60.0F)) )+"\n";
+	         break;  
+	         case Tipo::OPERARIOS:
+	         	header+="OPERARIOS;"+std::to_string( (i->getTiempo()/(60.0F)) )+"\n";
+
+	         break; 
+	         case Tipo::U_ENTRANTES:
+	         	header+="U_ENTRANTES;"+std::to_string( (i->getTiempo()/(60.0F)) )+"\n";
+	         break; 
+	         case Tipo::U_SALIENTES: 
+	         	header+="U_SALIENTES;"+std::to_string( (i->getTiempo()/(60.0F)) )+"\n";
+	         break; 
+	    }
+	} 
+	
+	if (myfile.is_open()){
+		myfile << header;
+		myfile.close();
+	}
+	return 0;
+
+}
 
 ///Generador de numeros de numeros pseudoaleatorios
 int main(int argc, char const *argv[]){
@@ -24,36 +54,69 @@ int main(int argc, char const *argv[]){
 		Usuarios user(*i);
 		usuarios.push_back(user);
 	} 
-	int c_tripulacion=0,c_operarios=0,c_entrantes=0,c_salientes=0;
-	unsigned long long sumTiemp1=0,sumTiemp2=0,sumTiemp3=0,sumTiemp4=0;
-
+	float c_tripulacion=0.0F,c_operarios=0.0F,c_entrantes=0.0F,c_salientes=0.0F;
+	float sumTiemp1=0,sumTiemp2=0,sumTiemp3=0,sumTiemp4=0;
+	double sd1,sd2,sd3,sd4;
 
 	for (std::vector<Usuarios>::iterator i = usuarios.begin(); i != usuarios.end(); ++i) {
 
 		switch (i->getTipo()) {  
 	         case Tipo::TRIPULACION: 
 	         	//std::cout<<"tiempo: "<<i->getTiempo()<<std::endl;
-		         sumTiemp1+=(i->getTiempo()/(60));
+		         sumTiemp1+=(i->getTiempo()/(60.0F));
 		         c_tripulacion++;
 	         break;  
 	         case Tipo::OPERARIOS:
-		         sumTiemp2+=(i->getTiempo()/(60));
+		         sumTiemp2+=(i->getTiempo()/(60.0F));
 		         c_operarios++;
 	         break; 
 	         case Tipo::U_ENTRANTES:
-		         sumTiemp3+=(i->getTiempo()/(60));
+		         sumTiemp3+=(i->getTiempo()/(60.0F));
 		         c_entrantes++;
 	         break; 
 	         case Tipo::U_SALIENTES: 
-		         sumTiemp4+=(i->getTiempo()/(60));
+		         sumTiemp4+=(i->getTiempo()/(60.0F));
 		         c_salientes++;
 	         break; 
 	    }
 	} 
- 
-	std::cout<<"Tiempo Medio Tripulacion: "<<(sumTiemp1/c_tripulacion)<<" Minutos..."<<std::endl;
-	std::cout<<"Tiempo Medio Operarios: "<<(sumTiemp2/c_operarios)<<" Minutos..."<<std::endl;
-	std::cout<<"Tiempo Medio U_ENTRANTES: "<<(sumTiemp3/c_entrantes)<<" Minutos..."<<std::endl;
-	std::cout<<"Tiempo Medio U_SALIENTES: "<<(sumTiemp4/c_salientes)<<" Minutos..."<<std::endl;
+
+	sumTiemp1=(float)(sumTiemp1/c_tripulacion);
+	sumTiemp2=(float)(sumTiemp2/c_operarios);
+	sumTiemp3=(float)(sumTiemp3/c_entrantes);
+	sumTiemp4=(float)(sumTiemp4/c_salientes);
+
+	for (std::vector<Usuarios>::iterator i = usuarios.begin(); i != usuarios.end(); ++i) {
+
+		switch (i->getTipo()) {  
+	         case Tipo::TRIPULACION: 
+	         	sd1 += pow(((i->getTiempo()/(60.0F))-sumTiemp1),2);
+	         break;  
+	         case Tipo::OPERARIOS:
+	         	sd2 += pow(((i->getTiempo()/(60.0F))-sumTiemp2),2);
+	         break; 
+	         case Tipo::U_ENTRANTES:
+	         	sd3 += pow(((i->getTiempo()/(60.0F))-sumTiemp3),2);
+	         break; 
+	         case Tipo::U_SALIENTES: 
+	         	sd4 += pow(((i->getTiempo()/(60.0F))-sumTiemp4),2);
+	         break; 
+	    }
+	} 
+ 	sd1 = sqrt(sd1/(c_tripulacion-1.0F));
+ 	sd2 = sqrt(sd2/(c_operarios-1.0F));
+ 	sd3 = sqrt(sd3/(c_entrantes-1.0F));
+ 	sd4 = sqrt(sd4/(c_salientes-1.0F));
+
+	std::cout<<"Tiempo Medio Tripulacion: "<<sumTiemp1<<" SD: "<<sd1 <<" Minutos..."<<std::endl;
+	std::cout<<"Tiempo Medio Operarios: "<<sumTiemp2<<" SD: "<<sd2 <<" Minutos..."<<std::endl;
+	std::cout<<"Tiempo Medio U_ENTRANTES: "<<sumTiemp3<<" SD: "<<sd3 <<" Minutos..."<<std::endl;
+	std::cout<<"Tiempo Medio U_SALIENTES: "<<sumTiemp4<<" SD: "<<sd4 <<" Minutos..."<<std::endl;
+
+
+	std::string file_name ="./Resultados/Aeropuerto.csv";
+    std::cout<<"File saved: "<<file_name<<std::endl;
+    vectorToCSV(usuarios,file_name);
  } 
  
+
