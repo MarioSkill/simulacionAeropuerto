@@ -1,6 +1,14 @@
 #include <string>
 #include "./class/Usuarios.h"
 // int vectorToCSV(std::vector<Usuarios> v, std::string file);
+std::string ReplaceAll(std::string str, const std::string& from, const std::string& to) {
+	size_t start_pos = 0;
+	while((start_pos = str.find(from, start_pos)) != std::string::npos) {
+		str.replace(start_pos, from.length(), to);
+        start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
+    }
+    return str;
+}
 int vectorToCSV(std::vector<Usuarios> v, std::string file){
 	std::ofstream myfile (file);
 	std::string header ="CLASE;TIEMPO\n";
@@ -8,22 +16,22 @@ int vectorToCSV(std::vector<Usuarios> v, std::string file){
 	for (std::vector<Usuarios>::iterator i = v.begin(); i != v.end(); ++i) {
 
 		switch (i->getTipo()) {  
-	         case Tipo::TRIPULACION: 
-	         	header+="TRIPULACION;"+std::to_string( (i->getTiempo()/(60.0F)) )+"\n";
-	         break;  
-	         case Tipo::OPERARIOS:
-	         	header+="OPERARIOS;"+std::to_string( (i->getTiempo()/(60.0F)) )+"\n";
+			case Tipo::TRIPULACION: 
+			header+="TRIPULACION;"+std::to_string( (i->getTiempo()/(60.0F)) )+"\n";
+			break;  
+			case Tipo::OPERARIOS:
+			header+="OPERARIOS;"+std::to_string( (i->getTiempo()/(60.0F)) )+"\n";
 
-	         break; 
-	         case Tipo::U_ENTRANTES:
-	         	header+="U_ENTRANTES;"+std::to_string( (i->getTiempo()/(60.0F)) )+"\n";
-	         break; 
-	         case Tipo::U_SALIENTES: 
-	         	header+="U_SALIENTES;"+std::to_string( (i->getTiempo()/(60.0F)) )+"\n";
-	         break; 
-	    }
+			break; 
+			case Tipo::U_ENTRANTES:
+			header+="U_ENTRANTES;"+std::to_string( (i->getTiempo()/(60.0F)) )+"\n";
+			break; 
+			case Tipo::U_SALIENTES: 
+			header+="U_SALIENTES;"+std::to_string( (i->getTiempo()/(60.0F)) )+"\n";
+			break; 
+		}
 	} 
-	
+	header = ReplaceAll(header, std::string("."), std::string(","));
 	if (myfile.is_open()){
 		myfile << header;
 		myfile.close();
@@ -34,7 +42,7 @@ int vectorToCSV(std::vector<Usuarios> v, std::string file){
 
 ///Generador de numeros de numeros pseudoaleatorios
 int main(int argc, char const *argv[]){
-    
+
 	Utils u;
 	std::vector<Usuarios> usuarios;
 
@@ -48,7 +56,7 @@ int main(int argc, char const *argv[]){
 	//50% operarios: 10 minutos desayuno. => N(600s, 90s) 
 	//numero maletas usuario: N(0.8,0.15)
 	//Peligrosidad: U(1,2); 
-  
+
 	for (std::vector<float>::iterator i = clases.begin(); i != clases.end(); ++i) {
 
 		Usuarios user(*i);
@@ -61,24 +69,24 @@ int main(int argc, char const *argv[]){
 	for (std::vector<Usuarios>::iterator i = usuarios.begin(); i != usuarios.end(); ++i) {
 
 		switch (i->getTipo()) {  
-	         case Tipo::TRIPULACION: 
+			case Tipo::TRIPULACION: 
 	         	//std::cout<<"tiempo: "<<i->getTiempo()<<std::endl;
-		         sumTiemp1+=(i->getTiempo()/(60.0F));
-		         c_tripulacion++;
-	         break;  
-	         case Tipo::OPERARIOS:
-		         sumTiemp2+=(i->getTiempo()/(60.0F));
-		         c_operarios++;
-	         break; 
-	         case Tipo::U_ENTRANTES:
-		         sumTiemp3+=(i->getTiempo()/(60.0F));
-		         c_entrantes++;
-	         break; 
-	         case Tipo::U_SALIENTES: 
-		         sumTiemp4+=(i->getTiempo()/(60.0F));
-		         c_salientes++;
-	         break; 
-	    }
+			sumTiemp1+=(i->getTiempo()/(60.0F));
+			c_tripulacion++;
+			break;  
+			case Tipo::OPERARIOS:
+			sumTiemp2+=(i->getTiempo()/(60.0F));
+			c_operarios++;
+			break; 
+			case Tipo::U_ENTRANTES:
+			sumTiemp3+=(i->getTiempo()/(60.0F));
+			c_entrantes++;
+			break; 
+			case Tipo::U_SALIENTES: 
+			sumTiemp4+=(i->getTiempo()/(60.0F));
+			c_salientes++;
+			break; 
+		}
 	} 
 
 	sumTiemp1=(float)(sumTiemp1/c_tripulacion);
@@ -89,24 +97,24 @@ int main(int argc, char const *argv[]){
 	for (std::vector<Usuarios>::iterator i = usuarios.begin(); i != usuarios.end(); ++i) {
 
 		switch (i->getTipo()) {  
-	         case Tipo::TRIPULACION: 
-	         	sd1 += pow(((i->getTiempo()/(60.0F))-sumTiemp1),2);
-	         break;  
-	         case Tipo::OPERARIOS:
-	         	sd2 += pow(((i->getTiempo()/(60.0F))-sumTiemp2),2);
-	         break; 
-	         case Tipo::U_ENTRANTES:
-	         	sd3 += pow(((i->getTiempo()/(60.0F))-sumTiemp3),2);
-	         break; 
-	         case Tipo::U_SALIENTES: 
-	         	sd4 += pow(((i->getTiempo()/(60.0F))-sumTiemp4),2);
-	         break; 
-	    }
+			case Tipo::TRIPULACION: 
+			sd1 += pow(((i->getTiempo()/(60.0F))-sumTiemp1),2);
+			break;  
+			case Tipo::OPERARIOS:
+			sd2 += pow(((i->getTiempo()/(60.0F))-sumTiemp2),2);
+			break; 
+			case Tipo::U_ENTRANTES:
+			sd3 += pow(((i->getTiempo()/(60.0F))-sumTiemp3),2);
+			break; 
+			case Tipo::U_SALIENTES: 
+			sd4 += pow(((i->getTiempo()/(60.0F))-sumTiemp4),2);
+			break; 
+		}
 	} 
- 	sd1 = sqrt(sd1/(c_tripulacion-1.0F));
- 	sd2 = sqrt(sd2/(c_operarios-1.0F));
- 	sd3 = sqrt(sd3/(c_entrantes-1.0F));
- 	sd4 = sqrt(sd4/(c_salientes-1.0F));
+	sd1 = sqrt(sd1/(c_tripulacion-1.0F));
+	sd2 = sqrt(sd2/(c_operarios-1.0F));
+	sd3 = sqrt(sd3/(c_entrantes-1.0F));
+	sd4 = sqrt(sd4/(c_salientes-1.0F));
 
 	std::cout<<"Tiempo Medio Tripulacion: "<<sumTiemp1<<" SD: "<<sd1 <<" Minutos..."<<std::endl;
 	std::cout<<"Tiempo Medio Operarios: "<<sumTiemp2<<" SD: "<<sd2 <<" Minutos..."<<std::endl;
@@ -115,8 +123,8 @@ int main(int argc, char const *argv[]){
 
 
 	std::string file_name ="./Resultados/Aeropuerto.csv";
-    std::cout<<"File saved: "<<file_name<<std::endl;
-    vectorToCSV(usuarios,file_name);
- } 
- 
+	std::cout<<"File saved: "<<file_name<<std::endl;
+	vectorToCSV(usuarios,file_name);
+} 
+
 
