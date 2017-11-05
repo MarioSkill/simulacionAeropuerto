@@ -7,9 +7,9 @@ decide llevar a cabo una fase previa de simulación, para lo que instala en el a
 computación ubicua de forma que cada zona del aeropuerto está controlada por medios informáticos y
 puedan estudiar durante unos meses como interaccionan los distintos usuarios del aeropuerto sus
 instalaciones
-##Compilar el simulador:
+## Compilar el simulador:
 make 
-### Resultados
+### Resultados MAIN
 Ejecucion con 5000 individuos
 ```
 Tiempo Medio Tripulacion: 49.6094 SD: 16.6677 Minutos...
@@ -19,9 +19,9 @@ Tiempo Medio U_SALIENTES: 35.1875 SD: 14.6845 Minutos...
 File saved: ./Resultados/Aeropuerto.csv
 ```
 
-##Compilar los test estadísitcos
+## Compilar los test estadísitcos
 make test
-### Resultados
+### Resultados TEST
 Tiempos de las distintas funciones estadísticas
 ```
 exponencial 1059.48 s
