@@ -12,11 +12,24 @@ make
 ### Resultados MAIN
 Ejecucion con 5000 individuos
 ```
-Tiempo Medio Tripulacion: 49.6094 SD: 16.6677 Minutos...
-Tiempo Medio Operarios: 60.9455 SD: 13.1936 Minutos...
-Tiempo Medio U_ENTRANTES: 60.904 SD: 15.4579 Minutos...
-Tiempo Medio U_SALIENTES: 35.1875 SD: 14.6845 Minutos...
+Tiempo Medio Tripulacion: 49.0536 SD: 16.3098 Minutos...
+Tiempo Medio Operarios: 54.0655 SD: 11.629 Minutos...
+Tiempo Medio U_ENTRANTES: 60.8278 SD: 15.2292 Minutos...
+Tiempo Medio U_SALIENTES: 39.6103 SD: 15.0429 Minutos...
+-------------------------------- Mas informacion ------------------------
+Tiempo Medio zona_recepcion: 0.00166671 Minutos
+Tiempo Medio zona_checkin: 2.38338 Minutos
+Tiempo Medio zona_control: 4.22043 Minutos
+Tiempo Medio zona_dutyfree: 8.50991 Minutos
+Tiempo Medio zona_oficinas: 6.34905 Minutos
+Tiempo Medio zona_pasarela: 4.02115 Minutos
+Tiempo Medio zona_cinta: 31.8079 Minutos
+Tiempo Medio zona_registro: 2.26395 Minutos
+Tiempo Medio zona_vesturio: 14.8824 Minutos
+Tiempo Medio zona_comedor: 26.6045 Minutos
+Tiempo Medio cambiando Zona: 18.818 Minutos
 File saved: ./Resultados/Aeropuerto.csv
+File saved: ./Resultados/MediayDesviacion.csv
 ```
 
 ## Compilar los test estadísitcos
